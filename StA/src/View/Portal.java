@@ -14,7 +14,9 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
-public class Mitarbeiterportal extends JFrame {
+import Controller.PortalController;
+
+public class Portal extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField titelTF;
@@ -23,6 +25,9 @@ public class Mitarbeiterportal extends JFrame {
 	private JTextField vornTF;
 	private JTextField fakTF;
 	private JTextField MatnrTF;
+	private JComboBox<?> comboBox_Person;
+	private JComboBox<?> comboBox_Buch;
+	private PortalController pc;
 
 	/**
 	 * Launch the application.
@@ -31,8 +36,8 @@ public class Mitarbeiterportal extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Mitarbeiterportal frame = new Mitarbeiterportal();
-					frame.setVisible(true);
+					Portal window = new Portal();
+					window.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -43,7 +48,9 @@ public class Mitarbeiterportal extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Mitarbeiterportal() {
+	public Portal() {
+		this.pc = new PortalController(this);
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 902, 573);
 		contentPane = new JPanel();
@@ -64,7 +71,7 @@ public class Mitarbeiterportal extends JFrame {
 		lblGruppe.setBounds(10, 14, 95, 14);
 		TabPerson.add(lblGruppe);
 		
-		JComboBox comboBox_Person = new JComboBox();
+		JComboBox<String> comboBox_Person = new JComboBox<String>();
 		comboBox_Person.addItem("Student");
 		comboBox_Person.addItem("Professor");
 		comboBox_Person.setSelectedItem(null);
@@ -120,6 +127,7 @@ public class Mitarbeiterportal extends JFrame {
 		btnPersAnl.setBounds(49, 177, 195, 23);
 		TabPerson.add(btnPersAnl);
 		btnPersAnl.setActionCommand("ADD_PERSON");
+		btnPersAnl.addActionListener(this.pc);
 		
 		
 		JPanel TabBuch = new JPanel();
@@ -146,7 +154,7 @@ public class Mitarbeiterportal extends JFrame {
 		TabBuch.add(autorTF);
 		autorTF.setColumns(10);
 		
-		JComboBox comboBox_Buch = new JComboBox();
+		JComboBox<String> comboBox_Buch = new JComboBox<String>();
 		comboBox_Buch.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		comboBox_Buch.addItem("ausleihbar");
 		comboBox_Buch.addItem("nicht ausleihbar");
@@ -158,6 +166,7 @@ public class Mitarbeiterportal extends JFrame {
 		btnBuchAnl.setBounds(68, 124, 204, 23);
 		TabBuch.add(btnBuchAnl);
 		btnBuchAnl.setActionCommand("ADD_BOOK");
+		btnBuchAnl.addActionListener(this.pc);
 		
 		JPanel TabBuchAusl = new JPanel();
 		tabbedPane.addTab("Buch ausleihen", null, TabBuchAusl, null);
@@ -172,6 +181,7 @@ public class Mitarbeiterportal extends JFrame {
 		btnPListe.setBounds(32, 24, 230, 23);
 		TabPListe.add(btnPListe);
 		btnPListe.setActionCommand("LIST_PERS");
+		btnPListe.addActionListener(this.pc);
 		
 		JPanel TabBListe = new JPanel();
 		TabBListe.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -183,11 +193,45 @@ public class Mitarbeiterportal extends JFrame {
 		btnBAusl.setBounds(37, 27, 267, 23);
 		TabBListe.add(btnBAusl);
 		btnBAusl.setActionCommand("LIST_BOOK_BOR");
+		btnBAusl.addActionListener(this.pc);
 		
 		JButton btnBAll = new JButton("B\u00FCcher - alle anzeigen");
 		btnBAll.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnBAll.setBounds(37, 74, 267, 23);
 		TabBListe.add(btnBAll);
 		btnBAll.setActionCommand("LIST_BOOK_ALL");
+		btnBAll.addActionListener(this.pc);
+	}
+	
+	public String getTitel() {
+		return this.titelTF.getText();
+	}
+
+	public String getAutor() {
+		return this.autorTF.getText();
+	}
+
+	public String getNachn() {
+		return this.nachnTF.getText();
+	}
+
+	public String getVorn() {
+		return this.vornTF.getText();
+	}
+
+	public String getFak() {
+		return this.fakTF.getText();
+	}
+
+	public String getMatnr() {
+		return this.MatnrTF.getText();
+	}
+
+	public String getComboBox_Person() {
+		return (String) this.comboBox_Person.getSelectedItem();
+	}
+
+	public String getComboBox_Buch() {
+		return (String) this.comboBox_Buch.getSelectedItem();
 	}
 }
